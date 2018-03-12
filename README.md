@@ -41,3 +41,33 @@ print(headpq.nsmallest(3,portfolio,key = lambda x: x['price]))
 #如果你想在一个集合中查找最小或最大的 N 个元素，并且 N 小于集合元素数量，那么这些函数提供了很好的性能。 因为在底层实现里面，首先会先将集合数据进行堆排序后放入一个列表中
 *heapq 模块的官方文档里面也详细的介绍了堆数据结构底层的实现细节*
 ```
+## 关键字参数
+*args,x,y,z 和*，x,y,z  可变参数后还可以加参数，但是会变成强制命名关键字参数，并且更具有可读性？
+
+## 定义匿名或者内联函数
+```
+
+#当一些函数很简单并且只是计算一个表达式并返回结果时，可以使用lambda表示
+add = lambda x,y : x+y# : 后是return的内容
+#作用于sorted ，reduce，mappping，filter 等，key = lambda ： 
+
+## 匿名函数会捕获变量值
+lambda表达式中的x是一个自由变量， 在运行时绑定值，而不是定义时就绑定，这跟函数的默认值参数定义是不同的。 因此，在调用这个lambda表达式的时候，x的值是执行时的值
+x = 10
+a = lambda y : x+y
+x = 20
+b = lambda y : x+y
+print(a(10),b(10))
+>>> 30,30
+y 是自由变量，不会被匿名函数绑定
+然而 如果要绑定的话
+test = lambda y,x = x : x + y
+```
+```
+>>> funcs = [lambda x: x+n for n in range(5)]
+>>> for f in funcs:
+... print(f(0))
+
+修改之后
+funcs = [lambda x,n = n:x+n for n in range(5)]
+```
