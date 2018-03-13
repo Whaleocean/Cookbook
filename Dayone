@@ -1,0 +1,20 @@
+## the first day
+```
+#减少调用函数的参数值:调用functools.partical(func,parameters = None)
+from functools import partical
+def test_func(a,b,c,d):
+  return a,b,c,d
+s1 = partical(test_func,a = 1)
+print(s1(1,2,3))
+>>> 1,1,2,3   #固定某些参数(若未提供命名关键字，则按顺序) ,重新返回一个callable对象
+
+s2 = partical(test_func,1,2)
+print(s2(1,2))
+#说人话就是：partical帮你创建一个函数（callable）对象，这个对象和原函数很像，但是有些要输入的参数已经填好了.
+#你可以在调用函数的时候固定并互忽略这个函数某个参数.因此在某些特殊情况，你可以用partical修改你要调用的函数，使得满足要求
+>>> 1,2,1,2
+#当然 partical 能完成的，大部分可以由lambda完成
+s1 = partical(test_func,a=1,b=2)
+s3 = labmda c,d : return test_func(a=1,b=2,c,d)
+
+#例子中提到 多进程的处理multiprocessing 和编写网络服务器 暂时没有接触到.
