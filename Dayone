@@ -18,3 +18,39 @@ s1 = partical(test_func,a=1,b=2)
 s3 = labmda c,d : return test_func(a=1,b=2,c,d)
 
 #例子中提到 多进程的处理multiprocessing 和编写网络服务器 暂时没有接触到.
+```
+闭包和7.9 将单方法的类转化成函数
+闭包 closure 本质上是一个函数 分成两部分 内嵌的函数，自由变量
+一般的格式
+```
+def main_func(parameter):
+    free_var = parameter
+    def nested_func(parameter2):
+        return free_var
+    return nested_func
+```
+其中嵌套的函数可以引用外层函数的自由变量
+最初我认为闭包优秀的地方在于可以传入两个自由变量.。
+main_func(parameter)(parameter2)这个看起来比较高级..
+其真正的意义在于暂时把外层函数的局部变量储存在内存中，若调用内嵌函数时，则可以调用局部变量
+使得局部变量的引用成为可能
+或者可以把变量当中局部变量存储起来
+（避免使用全局变量，此外闭包允许将函数与其操作的环境关联起来）
+7.9中的问题就是 除了定义__init__()方法外，只定义了一个方法的类，可以转化成闭包
+
+```
+class UrlTemplate:
+  def __init__(self,template):
+    self.template = template
+  def open(self,**kwargs):
+    return urlopen(self.template.format_map(kwargs))
+  #可以使用闭包实现
+  def UrlTempalte(template):
+    def open(**kwargs):
+        return urlopen(template.format_map(kwargs))
+    return open
+ ```
+ ## 大部分单方法类是是为了存储额外的状态给方法使用，而使用内部函数或者闭包更优雅一点
+ 
+
+
