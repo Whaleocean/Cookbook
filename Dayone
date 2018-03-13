@@ -60,6 +60,7 @@ Three conversion flags are currently supported:
 
 "Harold's a clever {0!s}"        # Calls str() on the argument first
 "Bring out the holy {name!r}"    # Calls repr() on the argument first
+"More {!a}"                      # Calls ascii() on the argument first
 ```
 例子
 ```
@@ -74,7 +75,7 @@ class Test:
    #一般定义完__str__，可以使用 __repr__ = __str__
    #!r 格式化代码指明输出使用 __repr__() 来代替默认的 __str__() 
 ```  
-"More {!a}"                      # Calls ascii() on the argument first
+
 
 ## *这里涉及到 repr 和str的区别*
 python中合法的字符串表达式是带有双引号''的，所以repr是将字符串转换为合法的表达式，
