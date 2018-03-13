@@ -52,5 +52,47 @@ class UrlTemplate:
  ```
  ## 大部分单方法类是是为了存储额外的状态给方法使用，而使用内部函数或者闭包更优雅一点
  
+ 
+# 要改变一个实例的字符串表示，可重新定义它的 __str__() 和 __repr__() 方法
+```
+Three conversion flags are currently supported: 
+'!s' which calls str() on the value, '!r' which calls repr() and '!a' which calls ascii().
 
+"Harold's a clever {0!s}"        # Calls str() on the argument first
+"Bring out the holy {name!r}"    # Calls repr() on the argument first
+```
+例子
+```
+class Test:
+  def __init__(self,x,y):
+    self.x = x
+    self.y = y
+  def __repr__(self):
+    return 'Test({0.x!r,0.y!s})'.format(self)
+  def __str__(self):
+    return '({0.x!r,0.y!r})'.format(self)
+   #一般定义完__str__，可以使用 __repr__ = __str__
+   #!r 格式化代码指明输出使用 __repr__() 来代替默认的 __str__() 
+```  
+"More {!a}"                      # Calls ascii() on the argument first
 
+## *这里涉及到 repr 和str的区别*
+python中合法的字符串表达式是带有双引号''的，所以repr是将字符串转换为合法的表达式，
+而str则是将字符串转换为更容易让用户理解的形式，即简单的来说就是str是表现人看的，repr是表现给python看的
+
+并且 __repr__()是用于直接返回字符串
+__str__() 是需要调用 str() & print() 函数才能返回字符串
+
+!r 让输入模式变成__repr__()  !s 让输入模式变成__str__()
+```
+class Pair:
+  def __init__(self,x = 1,y = 2):
+    self.x = x
+    self.y = y
+  def __repr__(self):
+    return "Pair({0.x!r,0.y!s})".format(self)
+  def __repr__(self):
+    return "({0.x!r,0.y!r)".format(self)
+    
+print("P is {0!r}".format(Pair(3,4))) >>> P is Pair(3,4) 导入的是__repr__()方法
+print("P is {0!s}".format(Pair(3,4))) >>> P is (3,4)   导入的是 __str__()方法
